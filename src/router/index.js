@@ -2,6 +2,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes  from './routes'
+
+
+const originPush = VueRouter.prototype.push
+VueRouter.prototype.push = function (location,onComplete = () => {},onAbort) {
+  return originPush.call(this,location,onComplete,onAbort)
+}
+
+VueRouter.prototype.replace = function (location,onComplete,onAbort) {
+   return originPush.call(this,location,onComplete,onAbort).catch(()=>{})
+}
+
+
+
 //声明使用vue的插件
 Vue.use(VueRouter)
 
